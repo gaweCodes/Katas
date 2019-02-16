@@ -1,34 +1,37 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
-namespace SortOddNumbers
+namespace Katas
 {
     internal class Program
     {
         private static void Main()
         {
-            foreach (var i in SortArray(new[] {1, 5, 3, 2, 9, 7}))
-            {
+            Console.Write("Output of SortAddNumbers: ");
+            foreach (var i in SortOddNumbers(new[] {1, 5, 3, 2, 9, 7}))
                 Console.WriteLine(i);
-            }
+            Console.WriteLine(BreakCamelCase("ThisExampleBreaksCamelCaseSentences."));
             Console.ReadLine();
         }
-        public static int[] SortArray(int[] array)
+        public static string BreakCamelCase(string str)
         {
-            for (var i = 0; i < array.Length; i++)
+            return Regex.Replace(str, "([A-Z])", " $1").Trim();
+        }
+        public static int[] SortOddNumbers(int[] numbers)
+        {
+            for (var index = 0; index < numbers.Length; index++)
             {
-                if (array[i] % 2 == 0 || array[i] == 0)
-                    continue;
-
-                for (var j = (i + 1); j < array.Length; j++)
+                if (numbers[index] % 2 == 0 || numbers[index] == 0) continue;
+                for (var j = index + 1; j < numbers.Length; j++)
                 {
-                    if (array[j] % 2 == 0 || array[i] == 0) continue;
-                    if (array[i] <= array[j]) continue;
-                    var temp = array[i];
-                    array[i] = array[j];
-                    array[j] = temp;
+                    if (numbers[j] % 2 == 0 || numbers[index] == 0) continue;
+                    if (numbers[index] <= numbers[j]) continue;
+                    var swapNumber = numbers[index];
+                    numbers[index] = numbers[j];
+                    numbers[j] = swapNumber;
                 }
             }
-            return array;
+            return numbers;
         }
     }
 }
