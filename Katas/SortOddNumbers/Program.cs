@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Katas
@@ -8,9 +9,17 @@ namespace Katas
         private static void Main()
         {
             Console.Write("Output of SortAddNumbers: ");
-            foreach (var i in SortOddNumbers(new[] {1, 5, 3, 2, 9, 7}))
-                Console.WriteLine(i);
+            SortOddNumbers(new[] { 1, 5, 3, 2, 9, 7 }).ToList().ForEach(Console.WriteLine);
+
+            Console.Write("Output of BreakCamelCase: ");
             Console.WriteLine(BreakCamelCase("ThisExampleBreaksCamelCaseSentences."));
+
+            Console.Write("Output of SquareEveryDigit: ");
+            Console.WriteLine(SquareEveryDigit(9119));
+
+            Console.Write("Output of Factorial: ");
+            Console.WriteLine(Factorial(3));
+
             Console.ReadLine();
         }
         public static string BreakCamelCase(string str)
@@ -32,6 +41,22 @@ namespace Katas
                 }
             }
             return numbers;
+        }
+
+        public static int SquareEveryDigit(int number)
+        {
+            return int.Parse(number.ToString()
+                .ToCharArray()
+                .Select(char.GetNumericValue)
+                .Select(a => Math.Pow(a, 2))
+                .Aggregate("", (acc, s) => acc + s));
+        }
+
+        public static int Factorial(int number)
+        {
+            if (number < 0 || number > 12)
+                throw new ArgumentOutOfRangeException(nameof(number), "The number must be between 0 and 12 (incl. 0 and 12)");
+            return number > 0 ? number * Factorial(number - 1) : 1;
         }
     }
 }
