@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{AB299928-8C0B-4B76-A92E-F07D0D0098BC}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>SortOddNumbers</RootNamespace>
-    <AssemblyName>SortOddNumbers</AssemblyName>
+    <RootNamespace>Katas</RootNamespace>
+    <AssemblyName>Katas</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

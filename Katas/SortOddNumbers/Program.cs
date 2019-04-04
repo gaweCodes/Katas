@@ -20,6 +20,9 @@ namespace Katas
             Console.Write("Output of Factorial: ");
             Console.WriteLine(Factorial(3));
 
+            Console.Write("High and Low: ");
+            Console.WriteLine(HighAndLow("5 4 3 7 8 9 1 0 6"));
+
             Console.ReadLine();
         }
         public static string BreakCamelCase(string str)
@@ -42,7 +45,6 @@ namespace Katas
             }
             return numbers;
         }
-
         public static int SquareEveryDigit(int number)
         {
             return int.Parse(number.ToString()
@@ -51,12 +53,28 @@ namespace Katas
                 .Select(a => Math.Pow(a, 2))
                 .Aggregate("", (acc, s) => acc + s));
         }
-
         public static int Factorial(int number)
         {
             if (number < 0 || number > 12)
                 throw new ArgumentOutOfRangeException(nameof(number), "The number must be between 0 and 12 (incl. 0 and 12)");
             return number > 0 ? number * Factorial(number - 1) : 1;
+        }
+        public static string HighAndLow(string numbers)
+        {
+            /* My Solution
+            var numbersList = numbers.Split(' ').ToList();
+            var min = int.Parse(numbersList.First());
+            var max = int.Parse(numbersList.First());
+            numbersList.ForEach(n =>
+            {
+                min = min > int.Parse(n) ? int.Parse(n) : min;
+                max = max < int.Parse(n) ? int.Parse(n) : max;
+            });
+            return max + " " + min;*/
+
+            // Best Practice
+            var parsed = numbers.Split().Select(int.Parse).ToList();
+            return parsed.Max() + " " + parsed.Min();
         }
     }
 }
