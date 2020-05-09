@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -74,6 +75,16 @@ namespace Katas
             Console.WriteLine("123, 456 should be 589: " + SumStrings("123", "456"));
             Console.WriteLine("123, 456 should be 589: " + SumStrings("712569312664357328695151392", "8100824045303269669937").Length);
 
+            Console.WriteLine("Josephus Permutation");
+            Console.WriteLine("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2 shoul be [2, 4, 6, 8, 10, 3, 7, 1, 9, 5]: " +
+                              string.Join(", ",
+                                  JosephusPermutation(new List<object> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2)));
+            
+            Console.WriteLine("Stop gninnipS My sdroW! => "+SpinWords("Stop gninnipS My sdroW") + "!");
+            Console.WriteLine("Jaden Casing Strings => " + "How can mirrors be real if our eyes aren't real".ToJadenCase());
+            Console.WriteLine("Credit Card Mask 4556364607935616 => " + Maskify("4556364607935616"));
+            
+            Console.WriteLine("0 should be 1 second: " + FormatDuration(3600*24*365*2+(3600*2)+185));
 
             Console.ReadLine();
         }
@@ -185,13 +196,150 @@ namespace Katas
         }
         private static string SumStrings(string a, string b)
         {
-            BigInteger aInt;
-            BigInteger bInt;
-
-            BigInteger.TryParse(a, out aInt);
-            BigInteger.TryParse(b, out bInt);
-
+            BigInteger.TryParse(a, out var aInt);
+            BigInteger.TryParse(b, out var bInt);
             return (aInt + bInt).ToString();
+        }
+        private static IEnumerable<object> JosephusPermutation(IList<object> items, int k)
+        {
+            var order = new object[items.Count];
+            var a = 0;
+            var b = 0;
+            var c = 0;
+            var n = items.Count;
+
+            while (items.Count != 0)
+            {
+                b++;
+                if (b == k)
+                {
+                    order[c] = items[a];
+                    items.RemoveAt(a);
+
+                    c++;
+                    a--;
+                    b = 0;
+                }
+                if (c == n - 1)
+                {
+                    order[c] = items[0];
+                    items.RemoveAt(0);
+                }
+                if (a == items.Count - 1)
+                    a = 0;
+                else
+                    a++;
+            }
+            return order.ToList();
+        }
+        private static string SpinWords(string sentence) => string.Join(" ",
+            sentence.Split(' ').Select(str => str.Length >= 5 ? new string(str.Reverse().ToArray()) : str));
+        private static string ToJadenCase(this string phrase) =>
+            CultureInfo.CurrentCulture.TextInfo.ToTitleCase(phrase);
+        private static string Maskify(string cc)
+        {
+            if (cc.Length <= 4) return cc;
+            var result = new StringBuilder(string.Empty);
+            
+            for (var i = 0; i < cc.Length - 4; i++) result.Append("#");
+            return result + cc.Substring(cc.Length - 4);
+        }
+        private static string FormatDuration(int seconds)
+        {
+            const int daysInYear = 365;
+            const int dayHours = 24;
+            const int minutesInHour = 60;
+            const int secondsInMinute = 60;
+            var result = string.Empty;
+            var remainingSeconds = seconds;
+            var years = 0;
+            var hours = 0;
+            var minutes = 0;
+            var yearString = string.Empty;
+            var daysString = string.Empty;
+            var hoursString = string.Empty;
+            var minutesString = string.Empty;
+            var secondsString = string.Empty;
+            var days = 0;
+            
+            if (remainingSeconds == 0)
+                return "now";
+
+            if (remainingSeconds >= daysInYear * dayHours * minutesInHour * secondsInMinute)
+            {
+                years = remainingSeconds / (daysInYear * dayHours * minutesInHour * secondsInMinute);
+                if (years == 1)
+                    yearString = years + " year";
+                else
+                    yearString = years + " years";
+            }
+            remainingSeconds = seconds - years * daysInYear * dayHours * minutesInHour * secondsInMinute;
+
+            if (remainingSeconds >= dayHours * minutesInHour * secondsInMinute)
+            {
+                days = remainingSeconds / (dayHours * minutesInHour * secondsInMinute);
+                if (days == 1)
+                    daysString = days + " day";
+                else 
+                    daysString = days + " days";
+            }
+            remainingSeconds = remainingSeconds - days * dayHours * minutesInHour * secondsInMinute;
+
+            if (remainingSeconds >= minutesInHour * secondsInMinute)
+            {
+                hours = remainingSeconds / (minutesInHour * secondsInMinute);
+                if (hours == 1)
+                    hoursString = hours + " hour";
+                else
+                    hoursString = hours + " hours";
+            }
+            remainingSeconds = remainingSeconds - hours * minutesInHour * secondsInMinute;
+
+            if (remainingSeconds >= secondsInMinute)
+            {
+                minutes = remainingSeconds / secondsInMinute;
+                if (minutes == 1)
+                    minutesString = minutes + " minute";
+                else
+                    minutesString = minutes + " minutes";
+            }
+            remainingSeconds = remainingSeconds - minutes * secondsInMinute;
+
+            if (remainingSeconds == 1)
+                secondsString = remainingSeconds + " second";
+            else if (remainingSeconds > 1) 
+                secondsString = remainingSeconds + " seconds";
+            
+            if (!string.IsNullOrEmpty(yearString))
+                result += yearString;
+
+            if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(daysString))
+                result += daysString;
+            else if (!string.IsNullOrEmpty(daysString) && (!string.IsNullOrEmpty(hoursString) || !string.IsNullOrEmpty(minutesString) || !string.IsNullOrEmpty(secondsString)))
+                result += ", " + daysString;
+            else if (!string.IsNullOrEmpty(daysString) && string.IsNullOrEmpty(hoursString) && string.IsNullOrEmpty(minutesString) && string.IsNullOrEmpty(secondsString))
+                result += " and " + daysString;
+
+            if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(hoursString))
+                result += hoursString;
+            else if (!string.IsNullOrEmpty(hoursString) && (!string.IsNullOrEmpty(minutesString) || !string.IsNullOrEmpty(secondsString)))
+                result += ", " + hoursString;
+            else if (!string.IsNullOrEmpty(hoursString) && string.IsNullOrEmpty(minutesString) && string.IsNullOrEmpty(secondsString))
+                result += " and " + hoursString;
+
+            if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(minutesString) && !string.IsNullOrEmpty(secondsString))
+                result += ", " + minutesString + " and " + secondsString;
+            else if (!string.IsNullOrEmpty(result) && string.IsNullOrEmpty(minutesString) && !string.IsNullOrEmpty(secondsString))
+                result += " and " + secondsString;
+            else if (string.IsNullOrEmpty(result) && string.IsNullOrEmpty(minutesString) && !string.IsNullOrEmpty(secondsString))
+                result += secondsString;
+            else if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(minutesString) && !string.IsNullOrEmpty(secondsString))
+                result += minutesString + " and " + secondsString;
+            else if (!string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(minutesString) && string.IsNullOrEmpty(secondsString))
+                result += " and " + minutesString;
+            else if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(minutesString) && string.IsNullOrEmpty(secondsString))
+                result += minutesString;
+            return result;
         }
     }
 }
