@@ -13,7 +13,7 @@ namespace Katas
         private static void Main()
         {
             Console.Write("Output of SortAddNumbers: ");
-            SortOddNumbers(new[] { 1, 5, 3, 2, 9, 7 }).ToList().ForEach(Console.WriteLine);
+            SortOddNumbers(new[] {1, 5, 3, 2, 9, 7}).ToList().ForEach(Console.WriteLine);
 
             Console.Write("Output of BreakCamelCase: ");
             Console.WriteLine(BreakCamelCase("ThisExampleBreaksCamelCaseSentences."));
@@ -34,13 +34,13 @@ namespace Katas
             Console.WriteLine(Summation(213));
 
             Console.WriteLine("array.diff");
-            Console.WriteLine(string.Join(", ", ArrayDiff(new [] {1,2,2,2,3}, new [] {2})));
+            Console.WriteLine(string.Join(", ", ArrayDiff(new[] {1, 2, 2, 2, 3}, new[] {2})));
 
             Console.WriteLine("Create Phone Number");
-            Console.WriteLine(CreatePhoneNumber(new [] { 1,2,3,4,5,6,7,8,9,0 }));
+            Console.WriteLine(CreatePhoneNumber(new[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 0}));
 
             Console.WriteLine("PaginationHelper");
-            var helper = new PaginationHelper<char>(new List<char> { 'a', 'b', 'c', 'd', 'e', 'f' }, 4);
+            var helper = new PaginationHelper<char>(new List<char> {'a', 'b', 'c', 'd', 'e', 'f'}, 4);
             Console.WriteLine("Should be 2: " + helper.PageCount);
             Console.WriteLine("Should be 6: " + helper.ItemCount);
             Console.WriteLine("Should be 4: " + helper.PageItemCount(0));
@@ -52,10 +52,11 @@ namespace Katas
             Console.WriteLine("Should be -1: " + helper.PageIndex(20));
             Console.WriteLine("Should be -1: " + helper.PageIndex(-10));
 
-            var collection = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24 };
+            var collection = new List<int>
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24};
             var helper1 = new PaginationHelper<int>(collection, 10);
             Console.WriteLine("Should be 3: " + helper1.PageCount);
-            
+
             Console.WriteLine("Should be -1: " + helper1.PageItemCount(-1));
             Console.WriteLine("Should be 10: " + helper1.PageItemCount(1));
             Console.WriteLine("Should be 4: " + helper1.PageItemCount(2));
@@ -68,26 +69,47 @@ namespace Katas
 
             Console.WriteLine("ROT13");
             Console.WriteLine("EBG13 rknzcyr. should be ROT13 example.: " + Rot13("EBG13 rknzcyr."));
-            Console.WriteLine("This is my first ROT13 excercise! should be Guvf vf zl svefg EBG13 rkprepvfr!: " + Rot13("This is my first ROT13 excercise!"));
+            Console.WriteLine("This is my first ROT13 excercise! should be Guvf vf zl svefg EBG13 rkprepvfr!: " +
+                              Rot13("This is my first ROT13 excercise!"));
             Console.WriteLine(Rot13("Va gur ryringbef, gur rkgebireg ybbxf ng gur BGURE thl'f fubrf."));
-            
+
             Console.WriteLine("Sum Strings as Numbers");
             Console.WriteLine("123, 456 should be 589: " + SumStrings("123", "456"));
-            Console.WriteLine("123, 456 should be 589: " + SumStrings("712569312664357328695151392", "8100824045303269669937").Length);
+            Console.WriteLine("123, 456 should be 589: " +
+                              SumStrings("712569312664357328695151392", "8100824045303269669937").Length);
 
             Console.WriteLine("Josephus Permutation");
             Console.WriteLine("[1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 2 shoul be [2, 4, 6, 8, 10, 3, 7, 1, 9, 5]: " +
                               string.Join(", ",
                                   JosephusPermutation(new List<object> {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}, 2)));
-            
-            Console.WriteLine("Stop gninnipS My sdroW! => "+SpinWords("Stop gninnipS My sdroW") + "!");
-            Console.WriteLine("Jaden Casing Strings => " + "How can mirrors be real if our eyes aren't real".ToJadenCase());
-            Console.WriteLine("Credit Card Mask 4556364607935616 => " + Maskify("4556364607935616"));
-            
-            Console.WriteLine("0 should be 1 second: " + FormatDuration(3600*24*365*2+(3600*2)+185));
 
-            Console.ReadLine();
+            Console.WriteLine("Stop gninnipS My sdroW! => " + SpinWords("Stop gninnipS My sdroW") + "!");
+            Console.WriteLine("Jaden Casing Strings => " +
+                              "How can mirrors be real if our eyes aren't real".ToJadenCase());
+            Console.WriteLine("Credit Card Mask 4556364607935616 => " + Maskify("4556364607935616"));
+
+            Console.WriteLine("0 should be 1 second: " + FormatDuration(3600 * 24 * 365 * 2 + (3600 * 2) + 185));
+
+
+
+            Console.WriteLine("Sudoku validation: " + ValidateSodoku(new int[][]
+            {
+                new[] {5, 3, 4, 6, 7, 8, 9, 1, 2},
+                new[] {6, 7, 2, 1, 9, 5, 3, 4, 8},
+                new[] {1, 9, 8, 3, 4, 2, 5, 6, 7},
+                new[] {8, 5, 9, 7, 6, 1, 4, 2, 3},
+                new[] {4, 2, 6, 8, 5, 3, 7, 9, 1},
+                new[] {7, 1, 3, 9, 2, 4, 8, 5, 6},
+                new[] {9, 6, 1, 5, 3, 7, 2, 8, 4},
+                new[] {2, 8, 7, 4, 1, 9, 6, 3, 5},
+                new[] {3, 4, 5, 2, 8, 6, 1, 7, 9}
+            }));
+
+        Console.ReadLine();
         }
+
+        public static object Int16 { get; set; }
+
         public static string BreakCamelCase(string str)
         {
             return Regex.Replace(str, "([A-Z])", " $1").Trim();
@@ -340,6 +362,41 @@ namespace Katas
             else if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(minutesString) && string.IsNullOrEmpty(secondsString))
                 result += minutesString;
             return result;
+        }
+
+        private static int[][] _grid;
+        private static bool ValidateSodoku(int[][] grid)
+        {
+            _grid = grid;
+            return RowsAreValid()
+                   && ColumnsAreValid()
+                   && SquaresAreValid();
+        }
+        private static bool RowsAreValid() => Validate(GetNumberFromRow);
+        private static bool ColumnsAreValid() => Validate(GetNumberFromColumn);
+        private static bool SquaresAreValid() => Validate(GetNumberFromSquare);
+        private static bool Validate(Func<int, int, int> numberGetter)
+        {
+            for (var row = 0; row < 9; row++)
+            {
+                var usedNumbers = new bool[10];
+                for (var column = 0; column < 9; column++)
+                {
+                    var number = numberGetter(row, column);
+                    if (number == 0 || usedNumbers[number]) return false;
+                    usedNumbers[number] = true;
+                }
+            }
+            return true;
+        }
+        private static int GetNumberFromRow(int row, int column) => _grid[row][column];
+        private static int GetNumberFromColumn(int row, int column) => _grid[column][row];
+        private static int GetNumberFromSquare(int block, int index)
+        {
+            const int length = 3;
+            var column = length * (block % length) + index % length;
+            var row = index / length + length * (block / length);
+            return _grid[row][column];
         }
     }
 }
